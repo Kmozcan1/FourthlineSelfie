@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/darth/AndroidStudioProjects/FourthlineSelfie/app/src/main/res/drawable/ic_fourthline_logo.xml" value="0.2703125" />
+        <entry key="..\:/Users/darth/AndroidStudioProjects/FourthlineSelfie/app/src/main/res/drawable/logo_drawable.xml" value="0.2703125" />
         <entry key="..\:/Users/darth/AndroidStudioProjects/FourthlineSelfie/app/src/main/res/layout/activity_main.xml" value="0.1793478260869565" />
       </map>
     </option>
