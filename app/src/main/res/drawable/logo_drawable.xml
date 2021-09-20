@@ -2,13 +2,13 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item>
-        <color android:color="@color/colorPrimary"/>
+        <color android:color="@color/white"/>
     </item>
 
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@drawable/ic_fourthline_logo"/>
+            android:src="@drawable/ic_logo_splash"/>
     </item>
 
 </layer-list>
