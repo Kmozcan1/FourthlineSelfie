@@ -4,4 +4,10 @@
     <style name="TextViewStyle" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">@color/black</item>
     </style>
+
+    <!-- Circular Shape style-->
+    <style name="CircularShapeStyle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

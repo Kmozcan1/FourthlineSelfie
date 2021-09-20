@@ -26,7 +26,7 @@ class HomeFragment : BaseFragment<HomeFragmentBinding, HomeViewModel>() {
     }
 
     fun onSelfieButtonClick(v: View) {
-        //navigate
+        FragmentNavigation().navigateFromHomeToSelfieFragment()
     }
 
 }

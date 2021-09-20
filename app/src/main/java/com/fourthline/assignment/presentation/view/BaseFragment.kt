@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import com.fourthline.assignment.presentation.viewmodel.Event
 
 /**
  * Created by Kadir Mert Özcan on 15-Sep-21.
@@ -84,6 +85,17 @@ abstract class BaseFragment<DataBindingClass : ViewDataBinding, ViewModelClass :
 
 
     internal fun setSupportActionBar(hasNavigationButton: Boolean) {
+    }
+
+    /**
+     * Inner class to be used by fragments for navigation purposes.
+     * Sets the navigationEvent LiveData of MainViewModel, which is observed from the MainActivity
+     */
+    inner class FragmentNavigation {
+        fun navigateFromHomeToSelfieFragment() {
+            val navAction = HomeFragmentDirections.actionHomeFragmentToSelfieFragment()
+            mainActivity.viewModel.setFragmentNavigationEvent(Event(navAction))
+        }
     }
 
 }

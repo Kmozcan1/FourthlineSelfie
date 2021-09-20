@@ -8,5 +8,14 @@
         android:id="@+id/homeFragment"
         android:name="com.fourthline.assignment.presentation.view.HomeFragment"
         android:label="@string/take_a_selfie"
-        tools:layout="@layout/home_fragment" />
+        tools:layout="@layout/home_fragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_selfieFragment"
+            app:destination="@id/selfieFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/selfieFragment"
+        android:name="com.fourthline.assignment.presentation.view.SelfieFragment"
+        android:label="selfie_fragment"
+        tools:layout="@layout/selfie_fragment" />
 </navigation>
