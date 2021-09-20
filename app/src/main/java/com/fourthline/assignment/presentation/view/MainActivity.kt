@@ -12,7 +12,10 @@ import androidx.navigation.ui.setupWithNavController
 import com.fourthline.assignment.R
 import com.fourthline.assignment.databinding.ActivityMainBinding
 import com.fourthline.assignment.presentation.viewmodel.MainViewModel
+import com.google.android.material.appbar.MaterialToolbar
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     val viewModel: MainViewModel by viewModels()
 
@@ -30,6 +33,11 @@ class MainActivity : AppCompatActivity() {
         navController.navInflater.inflate(R.navigation.nav_graph)
     }
 
+    val actionBar: MaterialToolbar by lazy {
+        findViewById(R.id.topAppBar)
+    }
+
+
     private val appBarConfiguration: AppBarConfiguration by lazy {
         AppBarConfiguration(navController.graph)
     }
@@ -37,19 +45,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_FourthlineSelfie)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
         setViews()
     }
 
     private fun setViews() {
-        binding = ActivityMainBinding.inflate(layoutInflater)
-
-        // setup top app bar
-        binding.topAppBar.setupWithNavController(navController, appBarConfiguration)
-
-        navController.graph = navGraph
-
-        setContentView(binding.root)
+        setContentView(R.layout.activity_main)
+        actionBar.setupWithNavController(navController, appBarConfiguration)
     }
 
     // Returns the fragment that is currently on the screen
