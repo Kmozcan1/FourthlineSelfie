@@ -62,6 +62,7 @@ class SelfieFragment : BaseFragment<SelfieFragmentBinding, SelfieViewModel>() {
             is SelfieViewState.CaptureSelfieResult -> {
                 var uri = viewState.selfieUri
             }
+            SelfieViewState.TimerFinished -> { Toast.makeText(context, "finito", Toast.LENGTH_LONG).show()}
             is SelfieViewState.Error -> {}
             is SelfieViewState.Loading -> {}
         }
@@ -76,11 +77,13 @@ class SelfieFragment : BaseFragment<SelfieFragmentBinding, SelfieViewModel>() {
                     preview,
                     imageCapture)
             }
+            viewModel.startCountdownTimer()
         } catch (e: Exception) {
             Timber.e("CameraX use case binding failed: ${e.localizedMessage}")
         }
     }
 
+    // Called on selfie button click
     fun onCaptureSelfieButtonClicked(v: View) {
         if (!selfieButtonClicked) {
             selfieButtonClicked = true

@@ -11,4 +11,5 @@ sealed class SelfieViewState {
     class Loading(val state: SelfieViewState) : SelfieViewState()
     class CameraProviderResult(val cameraProviderModel: CameraProviderModel? = null) : SelfieViewState()
     class CaptureSelfieResult(val selfieUri: Uri? = null): SelfieViewState()
+    object TimerFinished : SelfieViewState()
 }

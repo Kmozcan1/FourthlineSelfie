@@ -20,7 +20,7 @@ class CaptureSelfieHelper @Inject constructor (
 ) {
 
     suspend fun captureSelfie(imageCapture: ImageCapture): Uri {
-        var photoFile = ioHelper.getSelfiePhotoFile()
+        val photoFile = ioHelper.getSelfiePhotoFile()
 
         // Create output options object which contains file + metadata
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
