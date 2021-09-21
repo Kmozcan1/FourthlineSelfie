@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
@@ -24,7 +25,7 @@ abstract class BaseFragment<DataBindingClass : ViewDataBinding, ViewModelClass :
         activity as MainActivity
     }
 
-    val navController by lazy {
+    private val navController by lazy {
         findNavController()
     }
 
@@ -48,9 +49,10 @@ abstract class BaseFragment<DataBindingClass : ViewDataBinding, ViewModelClass :
     // Layout res id for to inflate with data binding
     abstract val layoutId: Int
 
-
     // Must be set for providing type safe view model
     abstract val viewModelClass: Class<ViewModelClass>
+
+    abstract val appBarVisible: Boolean
 
     // Called just before onCreateView is finished
     abstract fun onViewBound()
@@ -62,6 +64,8 @@ abstract class BaseFragment<DataBindingClass : ViewDataBinding, ViewModelClass :
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        mainActivity.actionBar.isVisible = appBarVisible
+
         // Applies type safe data binding
         binding = DataBindingUtil.inflate(
             inflater, layoutId, container, false) as DataBindingClass
@@ -84,7 +88,12 @@ abstract class BaseFragment<DataBindingClass : ViewDataBinding, ViewModelClass :
     }
 
 
-    internal fun setSupportActionBar(hasNavigationButton: Boolean) {
+    internal fun setSupportActionBar(isVisible: Boolean) {
+        if (isVisible) {
+            mainActivity.actionBar.visibility = View.VISIBLE
+        } else {
+            mainActivity.actionBar.visibility = View.GONE
+        }
     }
 
     /**
@@ -95,6 +104,9 @@ abstract class BaseFragment<DataBindingClass : ViewDataBinding, ViewModelClass :
         fun navigateFromHomeToSelfieFragment() {
             val navAction = HomeFragmentDirections.actionHomeFragmentToSelfieFragment()
             mainActivity.viewModel.setFragmentNavigationEvent(Event(navAction))
+        }
+        fun navigateToBack() {
+            navController.popBackStack()
         }
     }
 

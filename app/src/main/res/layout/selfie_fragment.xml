@@ -14,14 +14,33 @@
         tools:context=".presentation.view.SelfieFragment">
 
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/closeSelfieButton"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@drawable/ic_baseline_close_24"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:onClick="@{selfieFragment::onCloseSelfieButtonClicked}"
+            app:iconPadding="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/CircularShapeStyle"
+            tools:ignore="SpeakableTextPresentCheck" />
+
         <androidx.camera.view.PreviewView
             android:id="@+id/viewFinder"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:foregroundGravity="center"
             app:layout_constraintBottom_toTopOf="@+id/cameraButtonLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+        </androidx.camera.view.PreviewView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cameraButtonLayout"
@@ -47,6 +66,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/CircularShapeStyle"
                 tools:ignore="SpeakableTextPresentCheck" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

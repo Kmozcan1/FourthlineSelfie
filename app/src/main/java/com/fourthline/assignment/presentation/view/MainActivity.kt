@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
@@ -30,6 +31,8 @@ class MainActivity : AppCompatActivity() {
         private const val CAMERA_PERMISSION = Manifest.permission.CAMERA
         private val REQUIRED_PERMISSIONS = arrayOf(CAMERA_PERMISSION)
     }
+
+
 
     var queuedNavigationDirection: NavDirections? = null
 
@@ -71,6 +74,7 @@ class MainActivity : AppCompatActivity() {
             when(navDirections) {
                 HomeFragmentDirections.actionHomeFragmentToSelfieFragment() -> {
                     queuedNavigationDirection = navDirections
+                    actionBar.isVisible = false
                     navigateWithCameraPermission()
                 }
             }
@@ -103,7 +107,8 @@ class MainActivity : AppCompatActivity() {
                                             grantResults: IntArray) {
         when (requestCode) {
             //
-            CAMERA_PROCEED_PERMISSION_REQUEST_CODE -> navigateWithCameraPermission(true)
+            CAMERA_PROCEED_PERMISSION_REQUEST_CODE ->
+                navigateWithCameraPermission(true)
             else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
     }

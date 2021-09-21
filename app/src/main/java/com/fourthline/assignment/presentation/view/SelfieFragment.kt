@@ -17,6 +17,7 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.fourthline.assignment.R
 import com.fourthline.assignment.databinding.SelfieFragmentBinding
 import com.fourthline.assignment.domain.model.CameraProviderModel
@@ -45,8 +46,11 @@ class SelfieFragment : BaseFragment<SelfieFragmentBinding, SelfieViewModel>() {
 
     override val viewModelClass: Class<SelfieViewModel> = SelfieViewModel::class.java
 
+    override val appBarVisible = false
+
     override fun onViewBound() {
         binding.selfieFragment = this
+
     }
 
     override fun observeLiveData() {
@@ -62,7 +66,9 @@ class SelfieFragment : BaseFragment<SelfieFragmentBinding, SelfieViewModel>() {
             is SelfieViewState.CaptureSelfieResult -> {
                 var uri = viewState.selfieUri
             }
-            SelfieViewState.TimerFinished -> { Toast.makeText(context, "finito", Toast.LENGTH_LONG).show()}
+            SelfieViewState.TimerFinished -> {
+                Toast.makeText(context, "finito", Toast.LENGTH_LONG).show()
+            }
             is SelfieViewState.Error -> {}
             is SelfieViewState.Loading -> {}
         }
@@ -89,5 +95,9 @@ class SelfieFragment : BaseFragment<SelfieFragmentBinding, SelfieViewModel>() {
             selfieButtonClicked = true
             viewModel.captureSelfie()
         }
+    }
+
+    fun onCloseSelfieButtonClicked(v: View) {
+        FragmentNavigation().navigateToBack()
     }
 }

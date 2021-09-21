@@ -17,6 +17,8 @@ class HomeFragment : BaseFragment<HomeFragmentBinding, HomeViewModel>() {
 
     override val viewModelClass: Class<HomeViewModel> = HomeViewModel::class.java
 
+    override val appBarVisible = true
+
     override fun onViewBound() {
         binding.homeFragment = this
     }
