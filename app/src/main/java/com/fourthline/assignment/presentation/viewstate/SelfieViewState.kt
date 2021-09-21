@@ -1,5 +1,6 @@
 package com.fourthline.assignment.presentation.viewstate
 
+import android.net.Uri
 import com.fourthline.assignment.domain.model.CameraProviderModel
 
 /**
@@ -7,6 +8,7 @@ import com.fourthline.assignment.domain.model.CameraProviderModel
  */
 sealed class SelfieViewState {
     class Error(val e: Throwable) : SelfieViewState()
-    object Loading : SelfieViewState()
-    class CameraProviderResult(val cameraProviderModel: CameraProviderModel) : SelfieViewState()
+    class Loading(val state: SelfieViewState) : SelfieViewState()
+    class CameraProviderResult(val cameraProviderModel: CameraProviderModel? = null) : SelfieViewState()
+    class CaptureSelfieResult(val selfieUri: Uri? = null): SelfieViewState()
 }

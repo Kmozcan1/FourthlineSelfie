@@ -25,6 +25,7 @@ import com.fourthline.assignment.presentation.viewstate.SelfieViewState
 import com.google.common.util.concurrent.ListenableFuture
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.selfie_fragment.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
 import java.io.File
 import java.text.SimpleDateFormat
@@ -36,20 +37,16 @@ class SelfieFragment : BaseFragment<SelfieFragmentBinding, SelfieViewModel>() {
 
     companion object {
         fun newInstance() = SelfieFragment()
-        private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
     }
 
-    private var imageCapture: ImageCapture? = null
-
-    private lateinit var outputDirectory: File
-    private lateinit var cameraExecutor: ExecutorService
+    private var selfieButtonClicked = false
 
     override val layoutId: Int = R.layout.selfie_fragment
 
     override val viewModelClass: Class<SelfieViewModel> = SelfieViewModel::class.java
 
     override fun onViewBound() {
-
+        binding.selfieFragment = this
     }
 
     override fun observeLiveData() {
@@ -59,17 +56,18 @@ class SelfieFragment : BaseFragment<SelfieFragmentBinding, SelfieViewModel>() {
 
     private fun viewStateObserver() = Observer<SelfieViewState> { viewState ->
         when (viewState) {
-            is SelfieViewState.CameraProviderResult -> startCamera(viewState.cameraProviderModel)
-            is SelfieViewState.Error -> TODO()
-            SelfieViewState.Loading -> TODO()
+            is SelfieViewState.CameraProviderResult -> {
+                viewState.cameraProviderModel?.let { startCamera(it) }
+            }
+            is SelfieViewState.CaptureSelfieResult -> {
+                var uri = viewState.selfieUri
+            }
+            is SelfieViewState.Error -> {}
+            is SelfieViewState.Loading -> {}
         }
     }
 
     private fun startCamera(cameraProviderModel: CameraProviderModel) {
-        /*val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
-
-        cameraProviderFuture.addListener(cameraProviderListener(cameraProviderFuture),
-            ContextCompat.getMainExecutor(context))*/
         try {
             cameraProviderModel.run {
                 cameraProvider.unbindAll()
@@ -83,68 +81,10 @@ class SelfieFragment : BaseFragment<SelfieFragmentBinding, SelfieViewModel>() {
         }
     }
 
-    private fun takePhoto() {
-        // Get a stable reference of the modifiable image capture use case
-        val imageCapture = imageCapture ?: return
-
-        // Create time-stamped output file to hold the image
-        val photoFile = File(
-            outputDirectory,
-            SimpleDateFormat(FILENAME_FORMAT, Locale.ENGLISH
-            ).format(System.currentTimeMillis()) + ".jpg")
-
-        // Create output options object which contains file + metadata
-        val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
-
-        // Set up image capture listener, which is triggered after photo has
-        // been taken
-        imageCapture.takePicture(
-            outputOptions, ContextCompat.getMainExecutor(context), object : ImageCapture.OnImageSavedCallback {
-                override fun onError(exc: ImageCaptureException) {
-                    Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
-                }
-
-                override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    val savedUri = Uri.fromFile(photoFile)
-                    val msg = "Photo capture succeeded: $savedUri"
-                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, msg)
-                }
-            })
-    }
-
-
-    private fun cameraProviderListener(cameraProviderFuture:
-                                       ListenableFuture<ProcessCameraProvider>) = Runnable()
-    {
-        /*// Used to bind the lifecycle of cameras to the lifecycle owner
-        val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
-
-        // Preview
-        val preview = Preview.Builder()
-            .build()
-            .also {
-                it.setSurfaceProvider(binding.viewFinder.surfaceProvider)
-            }
-
-        imageCapture = ImageCapture.Builder()
-            .build()
-
-        // Select front camera as a default
-        val cameraSelector = CameraSelector.DEFAULT_FRONT_CAMERA
-
-        try {
-            // Unbind use cases before rebinding
-            cameraProvider.unbindAll()
-
-            // Bind use cases to camera
-            cameraProvider.bindToLifecycle(
-                this, cameraSelector, preview, imageCapture
-            )
-
-        } catch (exc: Exception) {
-            Timber.e("CameraX use case binding failed: ${exc.localizedMessage}")
-        }      */
-
+    fun onCaptureSelfieButtonClicked(v: View) {
+        if (!selfieButtonClicked) {
+            selfieButtonClicked = true
+            viewModel.captureSelfie()
+        }
     }
 }

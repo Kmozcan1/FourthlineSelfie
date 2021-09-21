@@ -17,7 +17,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.fourthline.assignment.R
 import com.fourthline.assignment.databinding.ActivityMainBinding
-import com.fourthline.assignment.presentation.viewmodel.Event
+import com.fourthline.assignment.domain.model.Event
 import com.fourthline.assignment.presentation.viewmodel.MainViewModel
 import com.google.android.material.appbar.MaterialToolbar
 import dagger.hilt.android.AndroidEntryPoint

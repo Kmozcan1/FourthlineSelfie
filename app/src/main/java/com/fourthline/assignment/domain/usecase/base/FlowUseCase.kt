@@ -1,6 +1,6 @@
 package com.fourthline.assignment.domain.usecase.base
 
-import com.fourthline.assignment.domain.model.FlowResult
+import com.fourthline.assignment.domain.model.UseCaseResult
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -15,12 +15,12 @@ import timber.log.Timber
  * https://github.com/google/iosched/blob/main/shared/src/main/java/com/google/samples/apps/iosched/shared/domain/FlowUseCase.kt
  */
 abstract class FlowUseCase<in P, R>(private val coroutineDispatcher: CoroutineDispatcher) {
-    suspend operator fun invoke(parameters: P): Flow<FlowResult<R>> = execute(parameters)
+    suspend operator fun invoke(parameters: P): Flow<UseCaseResult<R>> = execute(parameters)
         .catch { e ->
             Timber.e("Exception happened while executing, cause: ${e.message}")
-            emit(FlowResult.Error(e))
+            emit(UseCaseResult.Error(e))
         }
         .flowOn(coroutineDispatcher)
 
-    protected abstract suspend fun execute(parameters: P): Flow<FlowResult<R>>
+    protected abstract suspend fun execute(parameters: P): Flow<UseCaseResult<R>>
 }

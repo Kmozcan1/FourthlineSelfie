@@ -1,8 +1,8 @@
 package com.fourthline.assignment.presentation.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavDirections
+import com.fourthline.assignment.domain.model.Event
 import com.fourthline.assignment.presentation.viewstate.MainViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -24,5 +24,4 @@ class MainViewModel @Inject constructor() : BaseViewModel<MainViewState>() {
     override fun onError(t: Throwable) {
 
     }
-
 }

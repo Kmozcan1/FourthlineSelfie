@@ -17,18 +17,18 @@
 package com.fourthline.assignment.domain.model
 
 import androidx.lifecycle.MutableLiveData
-import com.fourthline.assignment.domain.model.FlowResult.Success
+import com.fourthline.assignment.domain.model.UseCaseResult.Success
 import kotlinx.coroutines.flow.MutableStateFlow
 
 /**
  * A generic class that holds a value with its loading status.
  * @param <T>
  */
-sealed class FlowResult<out R> {
+sealed class UseCaseResult<out R> {
 
-    data class Success<out T>(val data: T) : FlowResult<T>()
-    data class Error(val exception: Throwable) : FlowResult<Nothing>()
-    object Loading : FlowResult<Nothing>()
+    data class Success<out T>(val data: T) : UseCaseResult<T>()
+    data class Error(val exception: Throwable) : UseCaseResult<Nothing>()
+    object Loading : UseCaseResult<Nothing>()
 
     override fun toString(): String {
         return when (this) {
@@ -40,30 +40,30 @@ sealed class FlowResult<out R> {
 }
 
 /**
- * `true` if [FlowResult] is of type [Success] & holds non-null [Success.data].
+ * `true` if [UseCaseResult] is of type [Success] & holds non-null [Success.data].
  */
-val FlowResult<*>.succeeded
+val UseCaseResult<*>.succeeded
     get() = this is Success && data != null
 
-fun <T> FlowResult<T>.successOr(fallback: T): T {
+fun <T> UseCaseResult<T>.successOr(fallback: T): T {
     return (this as? Success<T>)?.data ?: fallback
 }
 
-val <T> FlowResult<T>.data: T?
+val <T> UseCaseResult<T>.data: T?
     get() = (this as? Success)?.data
 
 /**
- * Updates value of [liveData] if [FlowResult] is of type [Success]
+ * Updates value of [liveData] if [UseCaseResult] is of type [Success]
  */
-inline fun <reified T> FlowResult<T>.updateOnSuccess(liveData: MutableLiveData<T>) {
+inline fun <reified T> UseCaseResult<T>.updateOnSuccess(liveData: MutableLiveData<T>) {
     if (this is Success) {
         liveData.value = data
     }
 }
 /**
- * Updates value of [MutableStateFlow] if [FlowResult] is of type [Success]
+ * Updates value of [MutableStateFlow] if [UseCaseResult] is of type [Success]
  */
-inline fun <reified T> FlowResult<T>.updateOnSuccess(stateFlow: MutableStateFlow<T>) {
+inline fun <reified T> UseCaseResult<T>.updateOnSuccess(stateFlow: MutableStateFlow<T>) {
     if (this is Success) {
         stateFlow.value = data
     }

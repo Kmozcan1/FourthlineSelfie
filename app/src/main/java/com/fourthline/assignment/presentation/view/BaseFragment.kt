@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import com.fourthline.assignment.presentation.viewmodel.Event
+import com.fourthline.assignment.domain.model.Event
 
 /**
  * Created by Kadir Mert Özcan on 15-Sep-21.
