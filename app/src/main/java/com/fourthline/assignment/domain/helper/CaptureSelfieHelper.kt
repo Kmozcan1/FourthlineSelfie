@@ -5,8 +5,10 @@ import android.net.Uri
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.core.content.ContextCompat
+import com.fourthline.assignment.data.helper.IoHelper
 import dagger.hilt.android.qualifiers.ApplicationContext
 import timber.log.Timber
+import java.io.File
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -19,9 +21,7 @@ class CaptureSelfieHelper @Inject constructor (
     @ApplicationContext val context: Context
 ) {
 
-    suspend fun captureSelfie(imageCapture: ImageCapture): Uri {
-        val photoFile = ioHelper.getSelfiePhotoFile()
-
+    suspend fun captureSelfie(imageCapture: ImageCapture, photoFile: File): Uri {
         // Create output options object which contains file + metadata
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
 
