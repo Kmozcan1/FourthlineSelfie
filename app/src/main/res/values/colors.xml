@@ -2,6 +2,7 @@
 <resources>
     <color name="colorPrimary">#032d64</color>
     <color name="colorPrimaryVariant">#103f8c</color>
+    <color name="hawkesBlue">#d9e2f4</color>
     <color name="colorSecondary">#01df62</color>
     <color name="colorSecondaryVariant">#029765</color>
     <color name="black">#FF000000</color>

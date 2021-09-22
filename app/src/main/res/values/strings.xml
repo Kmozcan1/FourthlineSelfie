@@ -2,4 +2,8 @@
     <string name="app_name">Fourthline Selfie</string>
     <string name="takeSelfie">Take a Selfie</string>
     <string name="take_a_selfie">Take a Selfie</string>
+    <string name="cancel">Cancel</string>
+    <string name="retry">Retry</string>
+    <string name="it_was_not_possible_to_verify_your_identity">It was not possible to verify your identity</string>
+    <string name="selfie_error_image">Selfie error image</string>
 </resources>

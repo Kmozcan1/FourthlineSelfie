@@ -67,13 +67,15 @@ class SelfieFragment : BaseFragment<SelfieFragmentBinding, SelfieViewModel>() {
                 var uri = viewState.selfieUri
             }
             SelfieViewState.TimerFinished -> {
-                Toast.makeText(context, "finito", Toast.LENGTH_LONG).show()
+                FragmentNavigation().navigateFromSelfieToSelfieErrorFragment()
             }
             is SelfieViewState.Error -> {}
             is SelfieViewState.Loading -> {}
         }
     }
 
+    // Called after CameraProvider is retrieved from the domain layer
+    // to bind it to the Fragment's lifecycle
     private fun startCamera(cameraProviderModel: CameraProviderModel) {
         try {
             cameraProviderModel.run {
@@ -89,7 +91,7 @@ class SelfieFragment : BaseFragment<SelfieFragmentBinding, SelfieViewModel>() {
         }
     }
 
-    // Called on selfie button click
+    // Called when selfie capture button is clicked
     fun onCaptureSelfieButtonClicked(v: View) {
         if (!selfieButtonClicked) {
             selfieButtonClicked = true
@@ -97,6 +99,7 @@ class SelfieFragment : BaseFragment<SelfieFragmentBinding, SelfieViewModel>() {
         }
     }
 
+    // Called when the close button on the top right is clicked
     fun onCloseSelfieButtonClicked(v: View) {
         FragmentNavigation().navigateToBack()
     }
