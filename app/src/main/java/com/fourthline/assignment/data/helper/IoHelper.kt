@@ -1,10 +1,9 @@
-package com.fourthline.assignment.domain.helper
+package com.fourthline.assignment.data.helper
 
 import android.content.Context
 import android.os.Build
 import android.provider.MediaStore
 import com.fourthline.assignment.R
-import com.fourthline.assignment.presentation.view.SelfieFragment
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
 import java.text.SimpleDateFormat
