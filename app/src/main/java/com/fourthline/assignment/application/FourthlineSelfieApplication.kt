@@ -1,4 +1,4 @@
-package com.fourthline.assignment.presentation.application
+package com.fourthline.assignment.application
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

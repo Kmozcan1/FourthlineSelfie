@@ -1,4 +1,4 @@
-package com.fourthline.assignment.presentation.application.di
+package com.fourthline.assignment.application.di
 
 import android.app.Activity
 import com.fourthline.assignment.presentation.view.MainActivity
