@@ -105,6 +105,21 @@ abstract class BaseFragment<DataBindingClass : ViewDataBinding, ViewModelClass :
             val navAction = HomeFragmentDirections.actionHomeFragmentToSelfieFragment()
             mainActivity.viewModel.setFragmentNavigationEvent(Event(navAction))
         }
+        fun navigateFromSelfieToSelfieErrorFragment() {
+            val navAction = SelfieFragmentDirections
+                .actionSelfieFragmentToSelfieErrorFragment()
+            mainActivity.viewModel.setFragmentNavigationEvent(Event(navAction))
+        }
+        fun navigateFromSelfieErrorToSelfieFragment() {
+            val navAction = SelfieErrorFragmentDirections
+                .actionSelfieErrorFragmentToSelfieFragment()
+            mainActivity.viewModel.setFragmentNavigationEvent(Event(navAction))
+        }
+        fun navigateFromSelfieErrorToHomeFragment() {
+            val navAction = SelfieErrorFragmentDirections
+                .actionSelfieErrorFragmentToHomeFragment()
+            mainActivity.viewModel.setFragmentNavigationEvent(Event(navAction))
+        }
         fun navigateToBack() {
             navController.popBackStack()
         }

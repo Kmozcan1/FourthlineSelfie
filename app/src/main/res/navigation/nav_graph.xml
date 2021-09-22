@@ -16,6 +16,24 @@
     <fragment
         android:id="@+id/selfieFragment"
         android:name="com.fourthline.assignment.presentation.view.SelfieFragment"
-        android:label="selfie_fragment"
-        tools:layout="@layout/selfie_fragment" />
+        tools:layout="@layout/selfie_fragment" >
+        <action
+            android:id="@+id/action_selfieFragment_to_selfieErrorFragment"
+            app:destination="@id/selfieErrorFragment"
+            app:popUpTo="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/selfieErrorFragment"
+        android:name="com.fourthline.assignment.presentation.view.SelfieErrorFragment"
+        android:label="Selfie Error" >
+        <action
+            android:id="@+id/action_selfieErrorFragment_to_selfieFragment"
+            app:destination="@id/selfieFragment"
+            app:popUpTo="@id/homeFragment" />
+        <action
+            android:id="@+id/action_selfieErrorFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

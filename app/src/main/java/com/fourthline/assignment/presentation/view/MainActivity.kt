@@ -32,8 +32,6 @@ class MainActivity : AppCompatActivity() {
         private val REQUIRED_PERMISSIONS = arrayOf(CAMERA_PERMISSION)
     }
 
-
-
     var queuedNavigationDirection: NavDirections? = null
 
     val viewModel: MainViewModel by viewModels()
@@ -68,14 +66,26 @@ class MainActivity : AppCompatActivity() {
         viewModel.fragmentNavigationEvent.observe(this, observeFragmentNavigation())
     }
 
-    // Observer method for fragmentNavigationEvent LiveData
+    // Observer method for fragmentNavigationEvent LiveData. Handles fragment navigation.
     private fun observeFragmentNavigation() = Observer<Event<NavDirections>> { navEvent ->
         navEvent.getContentIfNotHandled()?.let { navDirections ->
             when(navDirections) {
                 HomeFragmentDirections.actionHomeFragmentToSelfieFragment() -> {
                     queuedNavigationDirection = navDirections
-                    actionBar.isVisible = false
                     navigateWithCameraPermission()
+                    actionBar.isVisible = false
+                }
+                SelfieFragmentDirections.actionSelfieFragmentToSelfieErrorFragment() -> {
+                    //actionBar.isVisible = true
+                    navController.navigate(navDirections)
+                }
+                SelfieErrorFragmentDirections.actionSelfieErrorFragmentToHomeFragment() -> {
+                    //actionBar.isVisible = true
+                    navController.navigate(navDirections)
+                }
+                SelfieErrorFragmentDirections.actionSelfieErrorFragmentToSelfieFragment() -> {
+                    actionBar.isVisible = false
+                    navController.navigate(navDirections)
                 }
             }
         }
@@ -126,7 +136,6 @@ class MainActivity : AppCompatActivity() {
                 this, REQUIRED_PERMISSIONS, DEFAULT_PERMISSION_REQUEST_CODE)
         }
     }
-
 
     // Returns the fragment that is currently on the screen
     private fun getActiveFragment(): Fragment? {
