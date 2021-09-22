@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_fragment"
+    app:startDestination="@id/homeFragment">
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.fourthline.assignment.presentation.view.HomeFragment"
+        android:label="@string/take_a_selfie"
+        tools:layout="@layout/home_fragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_selfieFragment"
+            app:destination="@id/selfieFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/selfieFragment"
+        android:name="com.fourthline.assignment.presentation.view.SelfieFragment"
+        tools:layout="@layout/selfie_fragment" >
+        <action
+            android:id="@+id/action_selfieFragment_to_selfieErrorFragment"
+            app:destination="@id/selfieErrorFragment"
+            app:popUpTo="@id/homeFragment" />
+        <action
+            android:id="@+id/action_selfieFragment_to_selfieResultsFragment"
+            app:destination="@id/selfieResultsFragment"
+            app:popUpTo="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/selfieErrorFragment"
+        android:name="com.fourthline.assignment.presentation.view.SelfieErrorFragment"
+        android:label="Selfie Error" >
+        <action
+            android:id="@+id/action_selfieErrorFragment_to_selfieFragment"
+            app:destination="@id/selfieFragment"
+            app:popUpTo="@id/homeFragment" />
+        <action
+            android:id="@+id/action_selfieErrorFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/selfieResultsFragment"
+        android:name="com.fourthline.assignment.presentation.view.SelfieResultsFragment"
+        android:label="@string/selfie_result" >
+        <action
+            android:id="@+id/action_selfieResultsFragment_to_selfieFragment"
+            app:destination="@id/selfieFragment"
+            app:popUpTo="@id/homeFragment" />
+        <argument android:name="selfieUri"
+            app:argType="string" />
+    </fragment>
+</navigation>
