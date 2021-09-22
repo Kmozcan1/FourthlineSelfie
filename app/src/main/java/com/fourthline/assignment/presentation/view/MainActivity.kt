@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.NavAction
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.NavGraph
@@ -69,23 +70,27 @@ class MainActivity : AppCompatActivity() {
     // Observer method for fragmentNavigationEvent LiveData. Handles fragment navigation.
     private fun observeFragmentNavigation() = Observer<Event<NavDirections>> { navEvent ->
         navEvent.getContentIfNotHandled()?.let { navDirections ->
-            when(navDirections) {
-                HomeFragmentDirections.actionHomeFragmentToSelfieFragment() -> {
+            when(navDirections.actionId) {
+                R.id.action_homeFragment_to_selfieFragment -> {
                     queuedNavigationDirection = navDirections
                     navigateWithCameraPermission()
                     actionBar.isVisible = false
                 }
-                SelfieFragmentDirections.actionSelfieFragmentToSelfieErrorFragment() -> {
+                R.id.action_selfieFragment_to_selfieErrorFragment,
+                R.id.action_selfieErrorFragment_to_homeFragment -> {
                     //actionBar.isVisible = true
                     navController.navigate(navDirections)
                 }
-                SelfieErrorFragmentDirections.actionSelfieErrorFragmentToHomeFragment() -> {
-                    //actionBar.isVisible = true
-                    navController.navigate(navDirections)
-                }
-                SelfieErrorFragmentDirections.actionSelfieErrorFragmentToSelfieFragment() -> {
+                R.id.action_selfieErrorFragment_to_selfieFragment,
+                R.id.action_selfieResultsFragment_to_selfieFragment -> {
                     actionBar.isVisible = false
                     navController.navigate(navDirections)
+                }
+                R.id.action_selfieFragment_to_selfieResultsFragment -> {
+                    val selfieUri = navDirections.arguments.getString("selfieUri")
+                    selfieUri?.let {
+                        navController.navigate(navDirections)
+                    }
                 }
             }
         }

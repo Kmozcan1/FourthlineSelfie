@@ -67,6 +67,18 @@
                 app:shapeAppearanceOverlay="@style/CircularShapeStyle"
                 tools:ignore="SpeakableTextPresentCheck" />
 
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/selfieProgressBar"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:background="@android:color/transparent"
+                android:indeterminate="true"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

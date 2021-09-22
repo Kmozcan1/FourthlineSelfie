@@ -1,5 +1,6 @@
 package com.fourthline.assignment.presentation.view
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,9 @@ import com.fourthline.assignment.domain.model.Event
 
 /**
  * Created by Kadir Mert Özcan on 15-Sep-21.
+ *
+ * Base class for fragments. Applies operations that are common to all fragments, and
+ * provides a way for fragments to access MainActivity
  */
 abstract class BaseFragment<DataBindingClass : ViewDataBinding, ViewModelClass : ViewModel>
     : Fragment() {
@@ -32,8 +36,6 @@ abstract class BaseFragment<DataBindingClass : ViewDataBinding, ViewModelClass :
     val appBarConfiguration by lazy {
         AppBarConfiguration(navController.graph)
     }
-
-    private var rootView: View? = null
 
     val appCompatActivity: AppCompatActivity by lazy {
         activity as AppCompatActivity
@@ -52,29 +54,19 @@ abstract class BaseFragment<DataBindingClass : ViewDataBinding, ViewModelClass :
     // Must be set for providing type safe view model
     abstract val viewModelClass: Class<ViewModelClass>
 
-    abstract val appBarVisible: Boolean
-
-    // Called just before onCreateView is finished
-    abstract fun onViewBound()
-
-    // Called just before onActivityCreated is finished
-    abstract fun observeLiveData()
+    // Determines action bar visibility
+    abstract val isActionBarVisible: Boolean
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mainActivity.actionBar.isVisible = appBarVisible
+        mainActivity.actionBar.isVisible = isActionBarVisible
 
         // Applies type safe data binding
         binding = DataBindingUtil.inflate(
             inflater, layoutId, container, false) as DataBindingClass
 
-        if (rootView == null) {
-            rootView = binding.root
-            onViewBound()
-            return binding.root
-        }
         onViewBound()
         return binding.root
     }
@@ -87,27 +79,35 @@ abstract class BaseFragment<DataBindingClass : ViewDataBinding, ViewModelClass :
         observeLiveData()
     }
 
-
-    internal fun setSupportActionBar(isVisible: Boolean) {
-        if (isVisible) {
-            mainActivity.actionBar.visibility = View.VISIBLE
-        } else {
-            mainActivity.actionBar.visibility = View.GONE
-        }
+    protected fun finishApplication() {
+        mainActivity.finishAndRemoveTask()
     }
+
+    // Called just before onCreateView is finished. Default implementation is empty
+    open fun onViewBound() {}
+
+    // Called just before onActivityCreated is finished
+    open fun observeLiveData() {}
+
 
     /**
      * Inner class to be used by fragments for navigation purposes.
      * Sets the navigationEvent LiveData of MainViewModel, which is observed from the MainActivity
      */
-    inner class FragmentNavigation {
+    protected inner class FragmentNavigation {
         fun navigateFromHomeToSelfieFragment() {
-            val navAction = HomeFragmentDirections.actionHomeFragmentToSelfieFragment()
+            val navAction = HomeFragmentDirections
+                .actionHomeFragmentToSelfieFragment()
             mainActivity.viewModel.setFragmentNavigationEvent(Event(navAction))
         }
         fun navigateFromSelfieToSelfieErrorFragment() {
             val navAction = SelfieFragmentDirections
                 .actionSelfieFragmentToSelfieErrorFragment()
+            mainActivity.viewModel.setFragmentNavigationEvent(Event(navAction))
+        }
+        fun navigateFromSelfieToSelfieResultsFragment(selfieUri: Uri) {
+            val navAction = SelfieFragmentDirections
+                .actionSelfieFragmentToSelfieResultsFragment(selfieUri.toString())
             mainActivity.viewModel.setFragmentNavigationEvent(Event(navAction))
         }
         fun navigateFromSelfieErrorToSelfieFragment() {
@@ -118,6 +118,11 @@ abstract class BaseFragment<DataBindingClass : ViewDataBinding, ViewModelClass :
         fun navigateFromSelfieErrorToHomeFragment() {
             val navAction = SelfieErrorFragmentDirections
                 .actionSelfieErrorFragmentToHomeFragment()
+            mainActivity.viewModel.setFragmentNavigationEvent(Event(navAction))
+        }
+        fun navigateFromSelfieResultToSelfieFragment() {
+            val navAction = SelfieResultsFragmentDirections
+                .actionSelfieResultsFragmentToSelfieFragment()
             mainActivity.viewModel.setFragmentNavigationEvent(Event(navAction))
         }
         fun navigateToBack() {

@@ -8,7 +8,7 @@ import com.fourthline.assignment.domain.model.CameraProviderModel
  */
 sealed class SelfieViewState {
     class Error(val e: Throwable) : SelfieViewState()
-    class Loading(val state: SelfieViewState) : SelfieViewState()
+    class Loading(val loadingState: SelfieViewState) : SelfieViewState()
     class CameraProviderResult(val cameraProviderModel: CameraProviderModel? = null) : SelfieViewState()
     class CaptureSelfieResult(val selfieUri: Uri? = null): SelfieViewState()
     object TimerFinished : SelfieViewState()
