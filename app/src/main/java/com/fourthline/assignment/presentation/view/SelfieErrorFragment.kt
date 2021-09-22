@@ -1,18 +1,11 @@
 package com.fourthline.assignment.presentation.view
 
-import androidx.lifecycle.ViewModelProvider
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import com.fourthline.assignment.R
-import com.fourthline.assignment.databinding.HomeFragmentBinding
 import com.fourthline.assignment.databinding.SelfieErrorFragmentBinding
-import com.fourthline.assignment.presentation.viewmodel.HomeViewModel
-import com.fourthline.assignment.presentation.viewmodel.SelfieErrorViewModel
+import com.fourthline.assignment.presentation.viewmodel.SelfieResultsViewModel
 
-class SelfieErrorFragment : BaseFragment<SelfieErrorFragmentBinding, SelfieErrorViewModel>() {
+class SelfieErrorFragment : BaseFragment<SelfieErrorFragmentBinding, SelfieResultsViewModel>() {
 
     companion object {
         fun newInstance() = HomeFragment()
@@ -20,16 +13,12 @@ class SelfieErrorFragment : BaseFragment<SelfieErrorFragmentBinding, SelfieError
 
     override val layoutId: Int = R.layout.selfie_error_fragment
 
-    override val viewModelClass: Class<SelfieErrorViewModel> = SelfieErrorViewModel::class.java
+    override val viewModelClass: Class<SelfieResultsViewModel> = SelfieResultsViewModel::class.java
 
-    override val appBarVisible = true
+    override val isActionBarVisible = true
 
     override fun onViewBound() {
         binding.selfieErrorFragment = this
-    }
-
-    override fun observeLiveData() {
-
     }
 
     fun onCancelSelfieButtonClick(v: View) {

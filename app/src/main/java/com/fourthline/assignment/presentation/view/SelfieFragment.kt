@@ -1,37 +1,15 @@
 package com.fourthline.assignment.presentation.view
 
-import android.net.Uri
-import androidx.lifecycle.ViewModelProvider
-import android.os.Bundle
-import android.service.controls.ControlsProviderService.TAG
-import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.Preview
-import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import com.fourthline.assignment.R
 import com.fourthline.assignment.databinding.SelfieFragmentBinding
 import com.fourthline.assignment.domain.model.CameraProviderModel
 import com.fourthline.assignment.presentation.viewmodel.SelfieViewModel
 import com.fourthline.assignment.presentation.viewstate.SelfieViewState
-import com.google.common.util.concurrent.ListenableFuture
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.selfie_fragment.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
-import java.io.File
-import java.text.SimpleDateFormat
-import java.util.*
-import java.util.concurrent.ExecutorService
 
 @AndroidEntryPoint
 class SelfieFragment : BaseFragment<SelfieFragmentBinding, SelfieViewModel>() {
@@ -46,7 +24,7 @@ class SelfieFragment : BaseFragment<SelfieFragmentBinding, SelfieViewModel>() {
 
     override val viewModelClass: Class<SelfieViewModel> = SelfieViewModel::class.java
 
-    override val appBarVisible = false
+    override val isActionBarVisible = false
 
     override fun onViewBound() {
         binding.selfieFragment = this
@@ -60,17 +38,30 @@ class SelfieFragment : BaseFragment<SelfieFragmentBinding, SelfieViewModel>() {
 
     private fun viewStateObserver() = Observer<SelfieViewState> { viewState ->
         when (viewState) {
+            // Bind CameraProvider to the fragment's lifeCycle
             is SelfieViewState.CameraProviderResult -> {
-                viewState.cameraProviderModel?.let { startCamera(it) }
+                viewState.cameraProviderModel?.let {
+                    startCamera(it)
+                    setProgressBarVisibility(false)
+                }
             }
+            // Navigate to SelfieResultFragment
             is SelfieViewState.CaptureSelfieResult -> {
-                var uri = viewState.selfieUri
+                viewState.selfieUri?.let {
+                    FragmentNavigation().navigateFromSelfieToSelfieResultsFragment(it)
+                }
             }
+            // Navigate to SelfieErrorFragment
             SelfieViewState.TimerFinished -> {
                 FragmentNavigation().navigateFromSelfieToSelfieErrorFragment()
             }
             is SelfieViewState.Error -> {}
-            is SelfieViewState.Loading -> {}
+            is SelfieViewState.Loading -> {
+                if (viewState.loadingState is SelfieViewState.CameraProviderResult ||
+                        viewState.loadingState is SelfieViewState.CaptureSelfieResult) {
+                    setProgressBarVisibility(true)
+                }
+            }
         }
     }
 
@@ -88,6 +79,18 @@ class SelfieFragment : BaseFragment<SelfieFragmentBinding, SelfieViewModel>() {
             viewModel.startCountdownTimer()
         } catch (e: Exception) {
             Timber.e("CameraX use case binding failed: ${e.localizedMessage}")
+        }
+    }
+
+    private fun setProgressBarVisibility(isVisible: Boolean) {
+        if (isVisible) {
+            captureSelfieButton.visibility = View.GONE
+            captureSelfieButton.isEnabled = false
+            selfieProgressBar.visibility = View.VISIBLE
+        } else {
+            captureSelfieButton.visibility = View.VISIBLE
+            captureSelfieButton.isEnabled = true
+            selfieProgressBar.visibility = View.GONE
         }
     }
 

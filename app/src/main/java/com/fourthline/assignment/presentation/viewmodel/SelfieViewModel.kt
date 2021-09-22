@@ -32,7 +32,10 @@ class SelfieViewModel @Inject constructor(
 
     private var imageCapture: ImageCapture? = null
 
+    // Gets the CameraProvider using GetSelfieCameraProviderUseCase
     fun getCameraProvider(previewView: PreviewView) {
+        setViewState(SelfieViewState.Loading(
+            SelfieViewState.CameraProviderResult(null)))
         viewModelScope.launch {
             when (val result = getSelfieCameraProviderUseCase(previewView)) {
                 is UseCaseResult.Success -> {
@@ -43,19 +46,19 @@ class SelfieViewModel @Inject constructor(
                 is UseCaseResult.Error -> {
                     onError(result.exception)
                 }
-                UseCaseResult.Loading ->
-                    onLoading(SelfieViewState.CameraProviderResult(null))
             }
         }
     }
 
+    // Captures the photo and retrieves the Uri using CaptureSelfieUseCase
     fun captureSelfie() {
         viewModelScope.launch {
+            setViewState(SelfieViewState.Loading(
+                SelfieViewState.CaptureSelfieResult(null)))
             when (val result = captureSelfieUseCase(imageCapture!!)) {
                 is UseCaseResult.Success ->
                     setViewState(SelfieViewState.CaptureSelfieResult(result.data))
                 is UseCaseResult.Error -> onError(result.exception)
-                UseCaseResult.Loading -> onLoading(SelfieViewState.CaptureSelfieResult(null))
             }
         }
     }

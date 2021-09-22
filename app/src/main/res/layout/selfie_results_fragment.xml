@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="selfieErrorFragment" type="com.fourthline.assignment.presentation.view.SelfieErrorFragment"/>
+        <variable name="selfieResultsFragment" type="com.fourthline.assignment.presentation.view.SelfieResultsFragment"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/selfieErrorLayout"
+        android:id="@+id/selfieResultsLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.view.SelfieErrorFragment">
+        tools:context=".presentation.view.SelfieResultsFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/selfieResultsButtonLayout"
@@ -23,70 +23,65 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/cancelSelfieButton"
+                android:id="@+id/resultsSelfieRetryButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="16dp"
                 android:height="64dp"
                 android:gravity="center_horizontal|center_vertical"
-                android:onClick="@{selfieErrorFragment::onCancelSelfieButtonClick}"
-                android:text="@string/cancel"
+                android:onClick="@{(v) -> selfieResultsFragment.onResultsRetrySelfieButtonClick()}"
+                android:text="@string/retry"
                 android:textColor="@color/colorPrimary"
                 app:backgroundTint="@color/hawkesBlue"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/errorSelfieRetryButton"
+                app:layout_constraintEnd_toStartOf="@+id/confirmSelfieRetryButton"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/errorSelfieRetryButton"
+                android:id="@+id/confirmSelfieRetryButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="32dp"
                 android:height="64dp"
                 android:gravity="center_horizontal|center_vertical"
-                android:onClick="@{selfieErrorFragment::onErrorRetrySelfieButtonClick}"
-                android:text="@string/retry"
+                android:onClick="@{(v) -> selfieResultsFragment.onConfirmSelfieButtonClick()}"
+                android:text="@string/confirm"
                 android:textColor="@color/white"
                 app:backgroundTint="@color/colorPrimary"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/cancelSelfieButton"
+                app:layout_constraintStart_toEndOf="@+id/resultsSelfieRetryButton"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/selfieConfirmTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/does_everything_look_good"
+                app:layout_constraintBottom_toTopOf="@+id/resultsSelfieRetryButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/selfieResultsImageView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:contentDescription="@string/selfie_error_image"
-            android:src="@drawable/ic_baseline_error_24"
             app:layout_constraintBottom_toTopOf="@+id/selfieResultsButtonLayout"
-            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.66"
-            app:tint="@android:color/holo_red_dark" />
-
-        <TextView
-            android:id="@+id/selfieErrorTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:gravity="center"
-            android:text="@string/it_was_not_possible_to_verify_your_identity"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/selfieResultsButtonLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"
-            app:layout_constraintVertical_bias="0.0" />
+            tools:src="@tools:sample/avatars"
+            android:contentDescription="@string/selfie_image" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

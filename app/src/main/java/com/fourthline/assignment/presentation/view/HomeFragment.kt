@@ -17,14 +17,10 @@ class HomeFragment : BaseFragment<HomeFragmentBinding, HomeViewModel>() {
 
     override val viewModelClass: Class<HomeViewModel> = HomeViewModel::class.java
 
-    override val appBarVisible = true
+    override val isActionBarVisible = true
 
     override fun onViewBound() {
         binding.homeFragment = this
-    }
-
-    override fun observeLiveData() {
-        //viewModel.viewState.observe(viewLifecycleOwner, viewStateObserver())
     }
 
     fun onSelfieButtonClick(v: View) {
